@@ -29,6 +29,7 @@
         <li>Non-existing vertices will be added automatically</li>
         <li>Press on the corresponding button to insert or remove an edge</li>
         <li>Vertices in graph should be named uniquely
+        <li>Parallel edges in graph are disallowed
       </ul>
     </div>
 
@@ -117,14 +118,14 @@
       // read inputs
       let from = document.getElementById('insert_from_label');
       let to = document.getElementById('insert_to_label');
-      let edge = document.getElementById('insert_edge_label');
-      let type = document.getElementById('insert_edge_label');
+      let label = document.getElementById('insert_edge_label');
+      let type = document.getElementById('insert_edge_type');
 
       // put them into json
       let edge = {
         from: from,
         to: to,
-        edge: edge,
+        label: label,
         type: type
       };
 
@@ -150,6 +151,7 @@
       // send json to elm
       app.ports.removeEdge.send(edge_json);
     }
+
   </script>
 
 </body>
