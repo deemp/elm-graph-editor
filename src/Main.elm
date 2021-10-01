@@ -1,9 +1,11 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Browser
 import Html exposing (Html, text)
 import Graph exposing(..)
 import Graph.DOT exposing(..)
+import Json.Decode as D
+import Json.Encode as E
 
 -- MAIN
 
@@ -18,6 +20,11 @@ main =
     , subscriptions = subscriptions
     }
 
+
+-- PORTS
+
+port insert : (D.Value -> msg) -> Sub msg
+port remove : (D.Value -> msg) -> Sub msg
 
 -- MODEL
 
@@ -35,7 +42,9 @@ init currentTime =
 
 -- UPDATE
 
-type Msg = NoOp
+type Msg 
+  = Insert D.Value
+  | Remove D.Value
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update _ model =

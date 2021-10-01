@@ -21,29 +21,27 @@
   </script>
 
   <!-- Container with light background -->
-  <div class="container bg-light">
-    <div style="margin-top: 50px;">
+  <div class="container bg-light" style="margin-top: 50px;">
       <h1>
         Graph generator
       </h1>
       <p>
         Internally, uses DOT-strings, Elm, and API of quickchart.io
       </p>
-    </div>
   </div>
 
-  <div class="container">
-    <div style="margin-top: 50px;">
-      <h5>Notes</h5>
-      <ul>
-        <li>Please, provide <b>alphanumeric</b> values</li>
-        <li>Non-existing vertices will be added automatically</li>
-        <li>Press on the corresponding button to insert or remove an edge</li>
-        <li>Vertices in graph should be named uniquely
-      </ul>
-    </div>
+  <div class="container" style="margin-top: 50px;">
+    <h5>Notes</h5>
+    <ul>
+      <li>Please, provide <b>alphanumeric</b> values</li>
+      <li>Non-existing vertices will be added automatically</li>
+      <li>Press on the corresponding button to insert or remove an edge</li>
+      <li>Vertices in graph should be named uniquely
+    </ul>
+  </div>
 
-    <div style="margin-top: 50px;" class="col-sm">
+  <div class="container" style="margin-top: 50px;">
+    <div class="col-sm">
       <div class="row">
         <div class="col-sm">
           <b>'From'</b> label
@@ -69,8 +67,10 @@
         <button id="insert_button" type="button" class="btn btn-secondary">Insert an edge</button>
       </div>
     </div>
+  </div>
 
-    <div style="margin-top: 50px;" class="col-sm">
+  <div class="container" style="margin-top: 50px;">
+    <div class="col-sm">
       <div class="row">
         <div class="col-sm">
           <b>'From'</b> label
@@ -85,15 +85,19 @@
         <button id="remove_button" type="button" class="btn btn-secondary">Remove an edge</button>
       </div>
     </div>
+  </div>
 
+  <div class="container" style="margin-top: 50px;">
     <div style="margin-top: 50px;">
       <h5>Resulting graph</h5>
       <img id="result_graph"
         src="https://quickchart.io/graphviz?graph=digraph{main-%3Eparse-%3Eexecute;main-%3Einit;main-%3Ecleanup;execute-%3Emake_string;execute-%3Eprintf;init-%3Emake_string;main-%3Eprintf;execute-%3Ecompare;}"
         class="img-fluid" alt="Graph image">
     </div>
+  </div>
 
-    <div style="margin-top: 50px;  margin-bottom: 50px;" class="col-sm">
+  <div class="container" style="margin-top: 50px;  margin-bottom: 50px;" >
+    <div class="col-sm">
       <h5>Current DOT-string</h5>
       <div class="form-group">
         <textarea id="result_dot_string" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
@@ -101,7 +105,7 @@
     </div>
   </div>
 
-  
+
 
 </body>
 

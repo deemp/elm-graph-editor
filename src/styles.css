@@ -1,14 +1,9 @@
-.dropdown-submenu {
-    position: relative;
-  }
-  
-.dropdown-submenu .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -1px;
+.block_margins{
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
-.input_title {
-  font-family: monospace;
-  font-style: italic;
+.top_block_margins{
+  margin-top: 50px;
+  margin-bottom: 25px;
 }
