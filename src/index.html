@@ -36,7 +36,7 @@
       <li>Please, provide <b>alphanumeric</b> values</li>
       <li>Non-existing vertices will be added automatically</li>
       <li>Press on the corresponding button to insert or remove an edge</li>
-      <li>Use unique names for vertices
+      <li>Vertices in graph should be named uniquely
     </ul>
 
     <div style="margin-top: 50px;" class="col-sm">
@@ -82,7 +82,14 @@
       </div>
     </div>
 
-    <div style="margin-top: 50px;" class="col-sm">
+    <div style="margin-top: 50px;">
+      <h5>Resulting graph</h5>
+      <img
+        src="https://quickchart.io/graphviz?graph=digraph{main-%3Eparse-%3Eexecute;main-%3Einit;main-%3Ecleanup;execute-%3Emake_string;execute-%3Eprintf;init-%3Emake_string;main-%3Eprintf;execute-%3Ecompare;}"
+        class="img-fluid" alt="Responsive image">
+    </div>
+    
+    <div style="margin-top: 50px;  margin-bottom: 50px;" class="col-sm">
       <h5>Current DOT-string</h5>
       <div class="form-group">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
@@ -97,11 +104,11 @@
       https://quickchart.io/documentation/graphviz-api/#api-parameters
   -->
   <!-- TODO: A port receives JSON.Decode.Value
-   -->
-   <!-- 
-     TODO: add text checks 
-      https://getbootstrap.com/docs/4.0/components/forms/#validation
-    -->
+  -->
+  <!-- 
+    TODO: add text checks 
+    https://getbootstrap.com/docs/4.0/components/forms/#validation
+  -->
 
 </body>
 
