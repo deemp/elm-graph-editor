@@ -23,8 +23,8 @@ main =
 
 -- PORTS
 
-port insert : (D.Value -> msg) -> Sub msg
-port remove : (D.Value -> msg) -> Sub msg
+port insertEdge : (D.Value -> msg) -> Sub msg
+port removeEdge : (D.Value -> msg) -> Sub msg
 
 -- MODEL
 
