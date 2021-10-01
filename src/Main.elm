@@ -109,7 +109,9 @@ type alias Label =
 type alias EdgeType = 
     String
 
-addEdge : (NodeId, NodeId) -> (Label, EdgeType) -> Model -> Model
+type alias EdgeEnds = (NodeId, NodeId)
+type alias EdgeInfo = (Label, EdgeType)
+addEdge : EdgeEnds -> EdgeInfo -> Model -> Model
 addEdge (v1, v2) (label, edgeType) model =
     { model | edges = Dict.insert (v1, v2) (label, edgeType) model.edges }
 
@@ -140,15 +142,35 @@ removeEdgeDecoder =
         |> required "from" D.string
         |> required "to" D.string
 
+
+type alias DefaultInt = Int
+
+getWithDefault : Dict comparable a -> a -> comparable -> a
+getWithDefault dict default key =
+    case Dict.get key dict of
+        Just value -> value
+        Nothing -> default
+
+getListWithDefault : Dict comparable a -> a -> List comparable -> List a
+getListWithDefault dict default l =
+    List.map (getWithDefault dict default) l
+
 composeUrl : Model -> E.Value
 composeUrl model = 
-    -- let 
-    --     nodes = List.map (\(label, id) -> Node id label) (Dict.toList model.labelId)
-    --     edges = List.map (\((v1,v2), label) -> Edge v1 v2 label) Dict.toList model.edges
-    --     g = Graph.from
-    -- in
+    let 
+
+        idLabel = Dict.fromList (List.map (\(k, v) -> (v, k)) (Dict.toList model.labelId))
+        edgesWithLabelEnds = List.map (\((v1, v2), (label, edgeType)) ->
+            let
+                [l1, l2] = 
+                    getListWithDefault idLabel "" [v1,v2]
+            in 
+                List.foldl (++) "" ["\t", l1, " -> ", l2, "[ label = ", label, ", style = ", edgeType, " ;"]
+        ) (Dict.toList model.edges)
+        graph = List.foldl (++) "" ["digraph D {\n", List.foldl (++) "" edgesWithLabelEnds, "\n}"]
+    in
         E.object [
-            ("url", E.string "")
+            ("url", E.string ("https://quickchart.io/graphviz?graph=" ++ graph))
         ]
 
 removeEdgeHandler : D.Value -> Model -> ( Model, Cmd Msg )
@@ -156,22 +178,8 @@ removeEdgeHandler value model =
     case D.decodeValue removeEdgeDecoder value of
         Ok e ->
             let
-                fromId =
-                    Dict.get e.from model.labelId
-
-                toId =
-                    Dict.get e.to model.labelId
-
-                makeInt x =
-                    case x of
-                        Nothing ->
-                            -1
-
-                        Just id ->
-                            id
-
-                p = (makeInt fromId, makeInt toId)
-                newModel = { model | edges = Dict.remove p model.edges }
+                [v1,v2] = getListWithDefault model.labelId -1 [e.from, e.to]
+                newModel = { model | edges = Dict.remove (v1, v2) model.edges }
             in
             ( newModel, updateGraph (composeUrl newModel))
 
