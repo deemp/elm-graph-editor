@@ -1,0 +1,108 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Main</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- Elm app -->
+  <div id="myapp"></div>
+  <script>
+    var app = Elm.Main.init({
+      node: document.getElementById('myapp'),
+      flags: Date.now()
+    });
+  </script>
+
+  <!-- Container with light background -->
+  <div class="container bg-light">
+    <h1>
+      Graph generator
+    </h1>
+    <p>
+      Internally, uses DOT-strings, Elm, and API of quickchart.io
+    </p>
+  </div>
+
+  <div class="container">
+    <h5>Notes</h5>
+    <ul>
+      <li>Please, provide <b>alphanumeric</b> values</li>
+      <li>Non-existing vertices will be added automatically</li>
+      <li>Press on the corresponding button to insert or remove an edge</li>
+      <li>Use unique names for vertices
+    </ul>
+
+    <div style="margin-top: 50px;" class="col-sm">
+      <div class="row">
+        <div class="col-sm">
+          <b>'From'</b> label
+          <input id="from_label" class="form-control" type="text" placeholder="v1">
+        </div>
+        <div class="col-sm">
+          <b>'To'</b> label
+          <input id="to_label" class="form-control" type="text" placeholder="v2">
+        </div>
+        <div class="col-sm">
+          Edge label
+          <input class="form-control" type="text" placeholder="e1">
+        </div>
+        <div class="col-sm">
+          Edge type
+          <select class="form-control">
+            <option>dashed</option>
+            <option>solid</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top: 10px;">
+        <button type="button" class="btn btn-secondary">Insert an edge</button>
+      </div>
+    </div>
+
+    <div style="margin-top: 50px;" class="col-sm">
+      <div class="row">
+        <div class="col-sm">
+          <b>'From'</b> label
+          <input class="form-control" type="text" placeholder="v1">
+        </div>
+        <div class="col-sm">
+          <b>'To'</b> label
+          <input class="form-control" type="text" placeholder="v2">
+        </div>
+      </div>
+      <div style="margin-top: 10px;">
+        <button type="button" class="btn btn-secondary">Remove an edge</button>
+      </div>
+    </div>
+
+    <div style="margin-top: 50px;" class="col-sm">
+      <h5>Current DOT-string</h5>
+      <div class="form-group">
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO: access graphviz API:
+    embed dot string into url
+        https://quickchart.io/graphviz?graph=digraph{main-%3Eparse-%3Eexecute;main-%3Einit;main-%3Ecleanup;execute-%3Emake_string;execute-%3Eprintf;init-%3Emake_string;main-%3Eprintf;execute-%3Ecompare;}&layout=fdp&format=png
+    or send HTTP-request
+      https://quickchart.io/documentation/graphviz-api/#api-parameters
+  -->
+  <!-- TODO: A port receives JSON.Decode.Value
+   -->
+   <!-- 
+     TODO: add text checks 
+      https://getbootstrap.com/docs/4.0/components/forms/#validation
+    -->
+
+</body>
+
+</html>
