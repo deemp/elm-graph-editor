@@ -150,17 +150,6 @@
       // send json to elm
       app.ports.removeEdge.send(edge_json);
     }
-
-    function switch_mode() {
-      var toggler;
-      toggler = document.getElementById('toggler');
-      if (toggler.checked) {
-        app.ports.switchMode.send(1);
-      }
-      else {
-        app.ports.switchMode.send(0);
-      }
-    }
   </script>
 
 </body>
