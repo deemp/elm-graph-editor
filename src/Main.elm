@@ -32,14 +32,14 @@ port insertEdge : (D.Value -> msg) -> Sub msg
 
 port removeEdge : (D.Value -> msg) -> Sub msg
 
-port updateGraph : String -> Cmd msg
+port updateGraph : E.Value -> Cmd msg
 
 -- MODEL
 
 
 type alias Model =
     { labelId : Dict String Int
-    , edges : Dict (List Int) String
+    , edges : Dict (Int, Int) (String, String)
     , nodeCounter : Int
     }
 
@@ -64,7 +64,7 @@ type alias InsertEdge =
     { from : Label
     , to : Label
     , label : Label
-    , edgeType : Label
+    , edgeType : EdgeType
     }
 
 
@@ -106,10 +106,12 @@ addNode label model =
 type alias Label =
     String
 
+type alias EdgeType = 
+    String
 
-addEdge : NodeId -> NodeId -> Label -> Model -> Model
-addEdge v1 v2 label model =
-    { model | edges = Dict.insert [ v1, v2 ] label model.edges }
+addEdge : (NodeId, NodeId) -> (Label, EdgeType) -> Model -> Model
+addEdge (v1, v2) (label, edgeType) model =
+    { model | edges = Dict.insert (v1, v2) (label, edgeType) model.edges }
 
 
 insertEdgeHandler : D.Value -> Model -> ( Model, Cmd Msg )
@@ -124,7 +126,7 @@ insertEdgeHandler value model =
                     addNode e.to m1
 
                 m3 =
-                    addEdge fromId toId e.label m2
+                    addEdge (fromId, toId) (e.label, e.edgeType) m2
             in
             ( m3, Cmd.none )
 
@@ -138,7 +140,16 @@ removeEdgeDecoder =
         |> required "from" D.string
         |> required "to" D.string
 
-
+composeUrl : Model -> E.Value
+composeUrl model = 
+    -- let 
+    --     nodes = List.map (\(label, id) -> Node id label) (Dict.toList model.labelId)
+    --     edges = List.map (\((v1,v2), label) -> Edge v1 v2 label) Dict.toList model.edges
+    --     g = Graph.from
+    -- in
+        E.object [
+            ("url", E.string "")
+        ]
 
 removeEdgeHandler : D.Value -> Model -> ( Model, Cmd Msg )
 removeEdgeHandler value model =
@@ -159,11 +170,10 @@ removeEdgeHandler value model =
                         Just id ->
                             id
 
-                p =
-                    List.map makeInt [ fromId, toId ]
+                p = (makeInt fromId, makeInt toId)
                 newModel = { model | edges = Dict.remove p model.edges }
             in
-            ( newModel, updateGraph "newModel")
+            ( newModel, updateGraph (composeUrl newModel))
 
         Err _ ->
             ( model, Cmd.none )
