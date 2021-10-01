@@ -89,7 +89,7 @@
         <!-- Just a place that is nearest to the main goal - url updates -->
         <div id="__app__"></div>
 
-        <img id="result_graph"
+        <img id="result_graph_image"
           src="https://quickchart.io/graphviz?graph=digraph{main-%3Eparse-%3Eexecute;main-%3Einit;main-%3Ecleanup;execute-%3Emake_string;execute-%3Eprintf;init-%3Emake_string;main-%3Eprintf;execute-%3Ecompare;}"
           class="img-fluid" alt="Graph image">
       </div>
@@ -113,7 +113,7 @@
       node: document.getElementById('__app__')
     });
 
-    // Handle insert edge
+    // handle insert edge
     function insert_button_clicked() {
       // read inputs
       let from = document.getElementById('insert_from_label');
@@ -135,6 +135,7 @@
       app.ports.insertEdge.send(edge_json);
     }
 
+    // handle remove edge
     function remove_button_clicked(){
       // read inputs
       let from = document.getElementById('remove_from_label');
@@ -151,6 +152,12 @@
       // send json to elm
       app.ports.removeEdge.send(edge_json);
     }
+
+    // handle graph image updates
+    app.ports.updateGraph.subscribe(function(url_json){
+      let url_obj = JSON.parse(url_json);
+      document.getElementById("result_graph_image").src=url_obj.url;
+    })
 
   </script>
 
