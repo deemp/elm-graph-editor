@@ -132,7 +132,7 @@
       };
 
       let edge_json = JSON.stringify(edge);
-
+      
       // send json to elm
       app.ports.insertEdge.send(edge_json);
     }
@@ -158,7 +158,6 @@
     // handle graph image updates
     app.ports.updateGraph.subscribe(function(url_obj){
       let url = encodeURI(url_obj.url);
-      console.log(url);
       document.getElementById("result_graph_image").src=url;
     })
 

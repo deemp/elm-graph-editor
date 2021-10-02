@@ -182,7 +182,7 @@ composeUrlJson model =
         idLabel =
             Dict.fromList (List.map (\( k, v ) -> ( v, k )) (Dict.toList model.labelId))
 
-        edgesWithLabelEnds =
+        styledEdges =
             List.map
                 (\( ( v1, v2 ), ( label, edgeType ) ) ->
                     let
@@ -194,7 +194,7 @@ composeUrlJson model =
                 (Dict.toList model.edges)
 
         graph =
-            List.foldr (++) "" [ "digraph D {", List.foldr (++) "" edgesWithLabelEnds, "}" ]
+            List.foldr (++) "" [ "digraph D {", List.foldr (++) "" styledEdges, "}" ]
     in
     E.object
         [ ( "url", E.string ("https://quickchart.io/graphviz?graph=" ++ graph) )
