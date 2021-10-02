@@ -30,24 +30,33 @@ main =
 
 port insertEdge : (D.Value -> msg) -> Sub msg
 
+
 port removeEdge : (D.Value -> msg) -> Sub msg
 
+
 port updateGraph : E.Value -> Cmd msg
+
+
 
 -- MODEL
 
 
 type alias Model =
     { labelId : Dict String Int
-    , edges : Dict (Int, Int) (String, String)
+    , edges : Dict ( Int, Int ) ( String, String )
     , nodeCounter : Int
     }
+
+
+initialModel : Model
+initialModel =
+    Model (Dict.fromList [ ( "a", 1 ), ( "b", 2 ) ]) (Dict.fromList [ ( ( 1, 2 ), ( "c", "dashed" ) ) ]) 3
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( Model Dict.empty Dict.empty 0
-    , Cmd.none
+    , updateGraph (composeUrlJson initialModel)
     )
 
 
@@ -77,17 +86,8 @@ insertEdgeDecoder =
         |> required "type" D.string
 
 
-type alias RemoveEdge =
-    { from : Label
-    , to : Label
-    }
-
-
-type alias Increment =
-    Int
-
-
-{-| Insert a node with label and return its id-}
+{-| Insert a node with label and return its id
+-}
 addNode : Label -> Model -> ( Model, NodeId )
 addNode label model =
     case Dict.get label model.labelId of
@@ -106,14 +106,22 @@ addNode label model =
 type alias Label =
     String
 
-type alias EdgeType = 
+
+type alias EdgeType =
     String
 
-type alias EdgeEnds = (NodeId, NodeId)
-type alias EdgeInfo = (Label, EdgeType)
+
+type alias EdgeEnds =
+    ( NodeId, NodeId )
+
+
+type alias EdgeInfo =
+    ( Label, EdgeType )
+
+
 addEdge : EdgeEnds -> EdgeInfo -> Model -> Model
-addEdge (v1, v2) (label, edgeType) model =
-    { model | edges = Dict.insert (v1, v2) (label, edgeType) model.edges }
+addEdge ( v1, v2 ) ( label, edgeType ) model =
+    { model | edges = Dict.insert ( v1, v2 ) ( label, edgeType ) model.edges }
 
 
 insertEdgeHandler : D.Value -> Model -> ( Model, Cmd Msg )
@@ -128,12 +136,18 @@ insertEdgeHandler value model =
                     addNode e.to m1
 
                 m3 =
-                    addEdge (fromId, toId) (e.label, e.edgeType) m2
+                    addEdge ( fromId, toId ) ( e.label, e.edgeType ) m2
             in
-            ( m3, Cmd.none )
+            ( m3, updateGraph (composeUrlJson m3))
 
         Err _ ->
             ( model, Cmd.none )
+
+
+type alias RemoveEdge =
+    { from : Label
+    , to : Label
+    }
 
 
 removeEdgeDecoder : D.Decoder RemoveEdge
@@ -143,45 +157,62 @@ removeEdgeDecoder =
         |> required "to" D.string
 
 
-type alias DefaultInt = Int
-
 getWithDefault : Dict comparable a -> a -> comparable -> a
 getWithDefault dict default key =
     case Dict.get key dict of
-        Just value -> value
-        Nothing -> default
+        Just value ->
+            value
 
-getListWithDefault : Dict comparable a -> a -> List comparable -> List a
-getListWithDefault dict default l =
-    List.map (getWithDefault dict default) l
+        Nothing ->
+            default
 
-composeUrl : Model -> E.Value
-composeUrl model = 
-    let 
 
-        idLabel = Dict.fromList (List.map (\(k, v) -> (v, k)) (Dict.toList model.labelId))
-        edgesWithLabelEnds = List.map (\((v1, v2), (label, edgeType)) ->
-            let
-                [l1, l2] = 
-                    getListWithDefault idLabel "" [v1,v2]
-            in 
-                List.foldl (++) "" ["\t", l1, " -> ", l2, "[ label = ", label, ", style = ", edgeType, " ;"]
-        ) (Dict.toList model.edges)
-        graph = List.foldl (++) "" ["digraph D {\n", List.foldl (++) "" edgesWithLabelEnds, "\n}"]
+getPairWithDefault : Dict comparable a -> a -> ( comparable, comparable ) -> ( a, a )
+getPairWithDefault dict default ( p1, p2 ) =
+    let
+        defaultGet =
+            getWithDefault dict default
     in
-        E.object [
-            ("url", E.string ("https://quickchart.io/graphviz?graph=" ++ graph))
+    Tuple.mapBoth defaultGet defaultGet ( p1, p2 )
+
+
+composeUrlJson : Model -> E.Value
+composeUrlJson model =
+    let
+        idLabel =
+            Dict.fromList (List.map (\( k, v ) -> ( v, k )) (Dict.toList model.labelId))
+
+        edgesWithLabelEnds =
+            List.map
+                (\( ( v1, v2 ), ( label, edgeType ) ) ->
+                    let
+                        ( l1, l2 ) =
+                            getPairWithDefault idLabel "" ( v1, v2 )
+                    in
+                    List.foldr (++) "" [" ", l1, " -> ", l2, "[ label = ", label, ", style = ", edgeType, " ]; " ]
+                )
+                (Dict.toList model.edges)
+
+        graph =
+            List.foldr (++) "" [ "digraph D {", List.foldr (++) "" edgesWithLabelEnds, "}" ]
+    in
+    E.object
+        [ ( "url", E.string ("https://quickchart.io/graphviz?graph=" ++ graph) )
         ]
+
 
 removeEdgeHandler : D.Value -> Model -> ( Model, Cmd Msg )
 removeEdgeHandler value model =
     case D.decodeValue removeEdgeDecoder value of
         Ok e ->
             let
-                [v1,v2] = getListWithDefault model.labelId -1 [e.from, e.to]
-                newModel = { model | edges = Dict.remove (v1, v2) model.edges }
+                ( v1, v2 ) =
+                    getPairWithDefault model.labelId -1 ( e.from, e.to )
+
+                newModel =
+                    { model | edges = Dict.remove ( v1, v2 ) model.edges }
             in
-            ( newModel, updateGraph (composeUrl newModel))
+            ( newModel, updateGraph (composeUrlJson newModel) )
 
         Err _ ->
             ( model, Cmd.none )
@@ -213,13 +244,3 @@ view _ =
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.batch [ insertEdge Insert, removeEdge Remove ]
-
-
-
-{-
-   page:
-   Add edge:
-   Label 1: []
-   Label 2: []
-   Type: []
--}
