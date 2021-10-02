@@ -189,7 +189,7 @@ composeUrlJson model =
                         ( l1, l2 ) =
                             getPairWithDefault idLabel "" ( v1, v2 )
                     in
-                    List.foldr (++) "" [" ", l1, " -> ", l2, "[ label = ", label, ", style = ", edgeType, " ]; " ]
+                    List.foldr (++) "" [" ", l1, " -> ", l2, "[ label = ", "\"   ", label, "\"", ", style = ", edgeType, " ]; " ]
                 )
                 (Dict.toList model.edges)
 
