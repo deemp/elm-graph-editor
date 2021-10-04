@@ -50,7 +50,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model (Dict.fromList [ ( "a", 1 ), ( "b", 2 ) ]) (Dict.fromList [ ( ( 1, 2 ), ( "c", "dashed" ) ) ]) 3
+    Model (Dict.fromList [ ( "some", 1 ), ( "\"graph\"", 2 ) ]) (Dict.fromList [ ( ( 1, 2 ), ( "default", "dashed" ) ) ]) 3
 
 
 init : () -> ( Model, Cmd Msg )
