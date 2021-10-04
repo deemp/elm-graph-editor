@@ -1,5 +1,5 @@
 {
-    "name": "br4ch1st0chr0n3/interactive-graph-editor",
+    "name": "br4ch1st0chr0n3/elm-graph-editor",
     "summary": "Edit graphs online",
     "version": "0.1.0",
     "exposed-modules": [
