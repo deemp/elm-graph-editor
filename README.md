@@ -2,4 +2,4 @@
 
 <img src="./README/demo.png" width=400px height=auto;></img>
 
-## [Wanna try Elm?](https://elm-lang.org/)
+## [Wanna learn about Elm?](https://elm-lang.org/)
