@@ -1,6 +1,6 @@
 {
-    "name": "polystat/try-phi",
-    "summary": "Try 𝜑-calculus online",
+    "name": "br4ch1st0chr0n3/interactive-graph-editor",
+    "summary": "Edit graphs online",
     "version": "0.1.0",
     "exposed-modules": [
         "Main"
