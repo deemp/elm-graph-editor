@@ -52,11 +52,11 @@
       <div class="col-sm">
         <div class="row">
           <div class="col">
-            <h6>'From' label</h6>
+            <h6>From</h6>
             <input id="insert_from_label" class="form-control" type="text" placeholder="v1">
           </div>
           <div class="col">
-            <h6>'To' label</h6>
+            <h6>To</h6>
             <input id="insert_to_label" class="form-control" type="text" placeholder="v2">
           </div>
           <div class="col">
@@ -72,8 +72,10 @@
           </div>
         </div>
         <div style="margin-top: 10px;">
-          <button id="insert_button" type="button" class="btn btn-secondary" onclick="insert_button_clicked()">
-            Insert an edge</button>
+          <div class="col">
+            <button id="insert_button" type="button" class="btn btn-secondary" onclick="insert_button_clicked()">
+              Insert edge</button>
+          </div>
         </div>
       </div>
     </div>
@@ -82,17 +84,17 @@
       <div class="col-sm">
         <div class="row">
           <div class="col">
-            <h6>'From' label</h6>
+            <h6>From</h6>
             <input id="remove_from_label" class="form-control" type="text" placeholder="v1">
           </div>
           <div class="col">
-            <h6>'To' label</h6>
+            <h6>To</h6>
             <input id="remove_to_label" class="form-control" type="text" placeholder="v2">
           </div>
         </div>
         <div style="margin-top: 10px;">
           <button id="remove_button" type="button" class="btn btn-secondary" onclick="remove_button_clicked()">
-            Remove an edge
+            Remove edge
           </button>
         </div>
       </div>
