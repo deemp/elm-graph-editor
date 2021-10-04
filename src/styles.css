@@ -1,9 +1,3 @@
-.block_margins{
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
-
-.top_block_margins{
-  margin-top: 50px;
-  margin-bottom: 25px;
+textarea {
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }

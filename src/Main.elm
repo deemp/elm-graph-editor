@@ -189,15 +189,15 @@ composeUrlJson model =
                         ( l1, l2 ) =
                             getPairWithDefault idLabel "" ( v1, v2 )
                     in
-                    List.foldr (++) "" [" ", l1, " -> ", l2, "[ label = ", "\"   ", label, "\"", ", style = ", edgeType, " ]; " ]
+                    List.foldr (++) "" ["    ", l1, " -> ", l2, "[ label = ", "\"   ", label, "\"", ", style = ", edgeType, " ];\n" ]
                 )
                 (Dict.toList model.edges)
 
         graph =
-            List.foldr (++) "" [ "digraph D {", List.foldr (++) "" styledEdges, "}" ]
+            List.foldr (++) "" [ "digraph D {\n", List.foldr (++) "" styledEdges, "}" ]
     in
     E.object
-        [ ( "url", E.string ("https://quickchart.io/graphviz?graph=" ++ graph) )
+        [ ( "dot", E.string graph )
         ]
 
 
