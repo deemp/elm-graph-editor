@@ -4,3 +4,4 @@ src/Main.js
 node_modules/
 .vscode
 src/toggle.html
+index.html
