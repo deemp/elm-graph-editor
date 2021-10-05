@@ -14,24 +14,24 @@
 
 
 ## Hosting Elm site locally
-1. [Install elm](https://guide.elm-lang.org/install/elm.html)
-1. Clone this repository
+1. [Install elm](https://guide.elm-lang.org/install/elm.html).
+1. Clone this repository.
     ```sh
     git clone https://github.com/br4ch1st0chr0n3/elm-graph-editor
     ```
-1. Go to the project's root folder
+1. Go to the project's root folder.
     ```sh
     cd elm-graph-editor
     ```
-1. Build `Main`
+1. Build `Main`.
     ```sh
     elm make src/Main.elm --output src/Main.js
     ```
-1. Run it
+1. Run it.
     ```sh
     elm reactor
     ```
-
+1. Follow the link in terminal or go directly to http://localhost:8000/src/index.html.
 
 ## Hosting Elm site on GitHub
 1. Make sure that your `main` Elm function is at `src/Main.elm`. This is needed for the command `elm make src/Main.elm --output src/Main.js` in `.github/workflows/main.yml` to work. You will add this `main.yml` on the next step.
