@@ -9,7 +9,28 @@
 
 
 ## Wanna learn about Elm?
-- ### [Visit their site](https://elm-lang.org/)
+- [Visit their site](https://elm-lang.org/)
+- Check [examples](https://elm-lang.org/examples)!
+
+
+## Hosting Elm site locally
+1. [Install elm](https://guide.elm-lang.org/install/elm.html)
+1. Clone this repository
+    ```sh
+    git clone https://github.com/br4ch1st0chr0n3/elm-graph-editor
+    ```
+1. Go to the project's root folder
+    ```sh
+    cd elm-graph-editor
+    ```
+1. Build `Main`
+    ```sh
+    elm make src/Main.elm --output src/Main.js
+    ```
+1. Run it
+    ```sh
+    elm reactor
+    ```
 
 
 ## Hosting Elm site on GitHub
