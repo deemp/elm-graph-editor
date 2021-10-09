@@ -38,3 +38,6 @@
 1. Create a [new workflow](https://docs.github.com/en/actions/quickstart). Instead of `github-actions-demo.yml`, use the file `.github/workflows/main.yml` from this repo.
 1. Then go to **Settings** -> **Pages** -> **Source** -> **Branch**: `gh-pages` -> Click **Save**.
 1. Now, if you see *Your site is published at* **link**, click this link.
+
+## Extra
+- A much more superior [editor](https://edotor.net/)
