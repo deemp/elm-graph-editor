@@ -15,7 +15,7 @@
 
 ## Hosting Elm site locally
 1. [Install elm](https://guide.elm-lang.org/install/elm.html)
-1. Install `elm-live`. It will re-build `.elm` files on changes.
+1. Install [elm-live](https://github.com/wking-io/elm-live). It will re-build `.elm` files on changes.
     ```sh
     npm install --global elm elm-live@next
     ```
